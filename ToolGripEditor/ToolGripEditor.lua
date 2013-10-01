@@ -30,6 +30,7 @@ local DummyTemplate = Create'Model'{
 		formFactor = Enum.FormFactor.Symmetric;
 		CFrame = CFrame.new(0, 4.5, -0.5, -1, 0, 0, 0, 1, 0, 0, 0, -1);
 		Name = "Head";
+		Locked = true;
 		Create'SpecialMesh'{
 			Scale = Vector3.new(1.25, 1.25, 1.25);
 		};
@@ -42,6 +43,7 @@ local DummyTemplate = Create'Model'{
 		formFactor = Enum.FormFactor.Symmetric;
 		CFrame = CFrame.new(1.5, 3, -0.5, -1, 0, 0, 0, 1, 0, 0, 0, -1);
 		Name = "Left Arm";
+		Locked = true;
 		Create'SpecialMesh'{
 			MeshType = Enum.MeshType.FileMesh;
 			MeshId = "http://www.roblox.com/asset/?id=27111419";
@@ -56,6 +58,7 @@ local DummyTemplate = Create'Model'{
 		BottomSurface = Enum.SurfaceType.Smooth;
 		CFrame = CFrame.new(0.5, 1, -0.5, -1, 0, 0, 0, 1, 0, 0, 0, -1);
 		Name = "Left Leg";
+		Locked = true;
 		Create'SpecialMesh'{
 			MeshType = Enum.MeshType.FileMesh;
 			MeshId = "http://www.roblox.com/asset/?id=27111857";
@@ -69,6 +72,7 @@ local DummyTemplate = Create'Model'{
 		formFactor = Enum.FormFactor.Symmetric;
 		CFrame = CFrame.new(-1.5, 3.5, 0, -0.99999994, -0, 0, 0, -4.37113883e-008, -1, 0, -1, 4.37113883e-008);
 		Name = "Right Arm";
+		Locked = true;
 		Create'SpecialMesh'{
 			MeshType = Enum.MeshType.FileMesh;
 			MeshId = "http://www.roblox.com/asset/?id=27111864";
@@ -83,6 +87,7 @@ local DummyTemplate = Create'Model'{
 		BottomSurface = Enum.SurfaceType.Smooth;
 		CFrame = CFrame.new(-0.5, 1, -0.5, -1, 0, 0, 0, 1, 0, 0, 0, -1);
 		Name = "Right Leg";
+		Locked = true;
 		Create'SpecialMesh'{
 			MeshType = Enum.MeshType.FileMesh;
 			MeshId = "http://www.roblox.com/asset/?id=27111882";
@@ -96,6 +101,7 @@ local DummyTemplate = Create'Model'{
 		formFactor = Enum.FormFactor.Symmetric;
 		CFrame = CFrame.new(0, 3, -0.5, -1, 0, -0, -0, 1, -0, -0, 0, -1);
 		Name = "Torso";
+		Locked = true;
 		Create'SpecialMesh'{
 			MeshType = Enum.MeshType.FileMesh;
 			MeshId = "http://www.roblox.com/asset/?id=27111894";
@@ -105,6 +111,7 @@ local DummyTemplate = Create'Model'{
 
 local OverlayTemplate = Create'Part'{
 	FormFactor = 'Symmetric';
+	Locked = true;
 }
 local HandlesTemplate = Create'Handles'{
 	Color = BrickColor.new("Bright orange");
@@ -143,6 +150,7 @@ local function HandleTool(tool,handle)
 
 	local dummyHandle = handle:Clone()
 	dummyHandle.Archivable = false
+	dummyHandle.Locked = true;
 	dummyHandle.Anchored = true;
 	dummyHandle.Transparency = TRANSPARENCY;
 	dummyHandle.CFrame = arm.CFrame * OFFSET * tool.Grip:inverse()
