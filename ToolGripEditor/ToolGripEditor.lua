@@ -111,8 +111,8 @@ local ArcHandlesTemplate = Create'ArcHandles'{
 	Color = BrickColor.new("Br. yellowish green");
 }
 
-local Camera = Workspace.CurrentCamera
 local function CameraLookAt(cf)
+	local Camera = Workspace.CurrentCamera
 	Camera.Focus = cf
 	Camera.CoordinateFrame = CFrame.new(Camera.CoordinateFrame.p,cf.p)
 end
