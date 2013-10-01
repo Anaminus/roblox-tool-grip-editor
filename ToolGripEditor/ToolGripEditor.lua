@@ -110,8 +110,10 @@ local DummyTemplate = Create'Model'{
 };
 
 local OverlayTemplate = Create'Part'{
-	FormFactor = 'Symmetric';
+	FormFactor = 'Custom';
 	Locked = true;
+	Anchored = true;
+	Transparency = TRANSPARENCY;
 }
 local HandlesTemplate = Create'Handles'{
 	Color = BrickColor.new("Bright orange");
@@ -150,19 +152,37 @@ local function HandleTool(tool,handle)
 
 	local dummyHandle = handle:Clone()
 	dummyHandle.Archivable = false
-	dummyHandle.Locked = true;
-	dummyHandle.Anchored = true;
-	dummyHandle.Transparency = TRANSPARENCY;
+	dummyHandle.Locked = true
+	dummyHandle.Anchored = true
+	dummyHandle.Transparency = TRANSPARENCY
 	dummyHandle.CFrame = arm.CFrame * OFFSET * tool.Grip:inverse()
 	dummyHandle.Parent = dummy
+	local c = handle.Changed:connect(function(p)
+		if p == 'Size' then
+			local cf = dummyHandle.CFrame
+			dummyHandle.Size = handle.Size
+			dummyHandle.CFrame = cf
+		end
+	end)
+	table.insert(currentObjects,function()
+		c:disconnect()
+	end)
+	table.insert(currentObjects,dummyHandle)
+
+	local function overlaySize()
+		local n = dummyHandle.Size.magnitude/2
+		return Vector3.new(n,n,n)
+	end
 
 	do
 		local overlay = OverlayTemplate:Clone()
+	--	overlay.Parent = dummy
 		table.insert(currentObjects,overlay)
-		overlay.Size = Vector3.new(4,4,4)
 		dummyHandle.Changed:connect(function(p)
 			overlay.CFrame = dummyHandle.CFrame
+			overlay.Size = overlaySize()*3
 		end)
+		overlay.Size = overlaySize()*3
 		overlay.CFrame = dummyHandle.CFrame
 
 		local handles = HandlesTemplate:Clone()
@@ -185,12 +205,14 @@ local function HandleTool(tool,handle)
 	end
 	do
 		local overlay = OverlayTemplate:Clone()
+	--	overlay.Parent = dummy
 		table.insert(currentObjects,overlay)
-		overlay.Size = Vector3.new(1,1,1)
 		dummyHandle.Changed:connect(function(p)
 			overlay.CFrame = dummyHandle.CFrame
+			overlay.Size = overlaySize()
 		end)
 		overlay.CFrame = dummyHandle.CFrame
+		overlay.Size = overlaySize()
 
 		local arcHandles = ArcHandlesTemplate:Clone()
 		table.insert(currentObjects,arcHandles)
@@ -220,7 +242,12 @@ end
 
 local function CleanUp()
 	for k,object in pairs(currentObjects) do
-		object:Destroy()
+		if type(object) == 'function' then
+			object()
+		else
+			object:Destroy()
+		end
+		currentObjects[k] = nil
 	end
 end
 
