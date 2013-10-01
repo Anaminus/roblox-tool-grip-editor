@@ -103,9 +103,12 @@ local DummyTemplate = Create'Model'{
 	};
 };
 
+local OverlayTemplate = Create'Part'{
+	FormFactor = 'Symmetric';
+}
 local HandlesTemplate = Create'Handles'{
 	Color = BrickColor.new("Bright orange");
-	Style = "Movement";
+	Style = 'Resize';
 }
 local ArcHandlesTemplate = Create'ArcHandles'{
 	Color = BrickColor.new("Br. yellowish green");
@@ -146,10 +149,18 @@ local function HandleTool(tool,handle)
 	dummyHandle.Parent = dummy
 
 	do
+		local overlay = OverlayTemplate:Clone()
+		table.insert(currentObjects,overlay)
+		overlay.Size = Vector3.new(4,4,4)
+		dummyHandle.Changed:connect(function(p)
+			overlay.CFrame = dummyHandle.CFrame
+		end)
+		overlay.CFrame = dummyHandle.CFrame
+
 		local handles = HandlesTemplate:Clone()
 		table.insert(currentObjects,handles)
 		handles.Archivable = false
-		handles.Adornee = dummyHandle
+		handles.Adornee = overlay
 		local origin
 		handles.MouseButton1Down:connect(function(face)
 		--	origin = dummyHandle.CFrame
@@ -165,10 +176,18 @@ local function HandleTool(tool,handle)
 		handles.Parent = CoreGui
 	end
 	do
+		local overlay = OverlayTemplate:Clone()
+		table.insert(currentObjects,overlay)
+		overlay.Size = Vector3.new(1,1,1)
+		dummyHandle.Changed:connect(function(p)
+			overlay.CFrame = dummyHandle.CFrame
+		end)
+		overlay.CFrame = dummyHandle.CFrame
+
 		local arcHandles = ArcHandlesTemplate:Clone()
 		table.insert(currentObjects,arcHandles)
 		arcHandles.Archivable = false
-		arcHandles.Adornee = dummyHandle
+		arcHandles.Adornee = overlay
 		local origin
 		arcHandles.MouseButton1Down:connect(function(axis)
 		--	origin = dummyHandle.CFrame
